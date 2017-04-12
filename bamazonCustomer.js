@@ -12,23 +12,19 @@ getProductList();
 
 //generate product list for user review
 function getProductList() {
-    connection.connect(function(err) {
+    connection.query('SELECT * FROM products', function(err, res){
         if(err) throw err;
+        console.log('Bamazon Product List:');
+	    console.log('==============================\n');
+        for (var i = 0; i < res.length; i++) {
+            console.log('Item ID: ' + res[i].item_id);
+            console.log('--------------------');
+            console.log('Name: ' + res[i].product_name);
+            console.log('Price: ' + res[i].price.toFixed(2) + '\n');
+        };
+        console.log('==============================');
 
-        connection.query('SELECT * FROM products', function(err, res){
-            if(err) throw err;
-            console.log('Bamazon Product List:');
-		    console.log('==============================\n');
-            for (var i = 0; i < res.length; i++) {
-                console.log('Item ID: ' + res[i].item_id);
-                console.log('--------------------');
-                console.log('Name: ' + res[i].product_name);
-                console.log('Price: ' + res[i].price.toFixed(2) + '\n');
-            };
-            console.log('==============================');
-
-            promptUser();
-        });
+        promptUser();
     });
 };
 
@@ -49,9 +45,6 @@ function promptUser() {
         var id = user.product_id;
         var qty = user.quantity;
 
-        console.log('ID: ' + id);
-        console.log('QTY: ' + qty);
-
         placeOrder(id, qty);
     });
 }
@@ -62,15 +55,13 @@ function placeOrder(id, quantity){
         if(err) throw err;
         var db_qty = res[0].stock_quantity;
         var price = res[0].price * quantity;
-        console.log(db_qty);
 
         if(quantity > db_qty) {
             console.log('Insufficient quantity!');
         } else {
             var new_qty = db_qty - quantity;
-            console.log(new_qty);
             connection.query('UPDATE products SET stock_quantity = ? WHERE item_id = ?', [new_qty, id], function(err, res) {
-                console.log('Your total = ' + price.toFixed(2) + '\n');
+                console.log('\nYour total = ' + price.toFixed(2) + '\n');
                 placeAnotherOrder();
             });
         }
