@@ -12,7 +12,7 @@ The Manager application allows a manager to do 4 possible operations:
 
 See the application in action:
  
-#### bamazonCustomer.js
+### bamazonCustomer.js
  
 Initial database values
 
@@ -26,7 +26,7 @@ Database quantity after a user has purchased an item:
 
 ![db-qty-total-after-purchase](https://cloud.githubusercontent.com/assets/22712344/25007858/7f77e340-2027-11e7-9ddc-1fadd84ce748.png)
 
-#### bamazonManager.js
+### bamazonManager.js
 
 Options the manager has when using the application:
 
